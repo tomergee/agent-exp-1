@@ -14,22 +14,7 @@ export default function Header() {
     <>
       <header className="h-12 bg-gray-900 border-b border-gray-700 flex items-center justify-between px-4">
         <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 relative">
-              <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" fill="#22c55e" />
-                <path d="M2 17l10 5 10-5" stroke="#22c55e" strokeWidth="2" fill="none" />
-                <path d="M2 12l10 5 10-5" stroke="#22c55e" strokeWidth="2" fill="none" />
-              </svg>
-            </div>
-            <span className="text-white font-bold text-sm tracking-wide">TENSOROPS</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-5 text-gray-400 text-xs">
-            <a href="#" className="hover:text-white transition-colors">SERVICES</a>
-            <a href="#" className="hover:text-white transition-colors">CASE STUDIES</a>
-            <a href="#" className="hover:text-white transition-colors">CAREERS</a>
-            <a href="#" className="hover:text-white transition-colors">BLOG</a>
-          </nav>
+          <span className="text-white font-bold text-sm tracking-wide">Agent Scrum</span>
         </div>
 
         <div className="flex items-center gap-4">

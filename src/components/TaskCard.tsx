@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useDraggable } from '@dnd-kit/core';
 import { Task } from '@/types';
 import TaskDetailModal from './TaskDetailModal';
 
@@ -12,12 +13,44 @@ export default function TaskCard({ task }: TaskCardProps) {
   const [showDetail, setShowDetail] = useState(false);
   const completedSubtasks = task.subtasks.filter(st => st.completed).length;
   const totalSubtasks = task.subtasks.length;
+  const didDrag = useRef(false);
+
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    id: task.id,
+  });
+
+  const style = transform
+    ? {
+        transform: `translate(${transform.x}px, ${transform.y}px)`,
+        zIndex: 50,
+        opacity: 0.9,
+      }
+    : undefined;
+
+  // Track whether a drag occurred so we can prevent click after drag
+  if (isDragging) {
+    didDrag.current = true;
+  }
+
+  const handleClick = () => {
+    if (didDrag.current) {
+      didDrag.current = false;
+      return;
+    }
+    setShowDetail(true);
+  };
 
   return (
     <>
       <div
-        onClick={() => setShowDetail(true)}
-        className="bg-gray-800 rounded-lg p-3 cursor-pointer hover:bg-gray-750 hover:ring-1 hover:ring-gray-600 transition-all group"
+        ref={setNodeRef}
+        style={style}
+        {...listeners}
+        {...attributes}
+        onClickCapture={handleClick}
+        className={`bg-gray-800 rounded-lg p-3 cursor-grab hover:bg-gray-750 hover:ring-1 hover:ring-gray-600 transition-all group ${
+          isDragging ? 'shadow-2xl ring-2 ring-blue-500 cursor-grabbing' : ''
+        }`}
       >
         <div className="flex items-start justify-between mb-1">
           <h4 className="text-white text-xs font-medium leading-tight flex-1 mr-2">

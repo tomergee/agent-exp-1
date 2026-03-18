@@ -7,12 +7,8 @@ test.describe('Agent Scrum Platform', () => {
   });
 
   test.describe('Header & Navigation', () => {
-    test('renders the TensorOps header with logo and nav links', async ({ page }) => {
-      await expect(page.locator('text=TENSOROPS')).toBeVisible();
-      await expect(page.locator('text=SERVICES')).toBeVisible();
-      await expect(page.locator('text=CASE STUDIES')).toBeVisible();
-      await expect(page.locator('text=CAREERS')).toBeVisible();
-      await expect(page.locator('text=BLOG')).toBeVisible();
+    test('renders the header with Agent Scrum branding', async ({ page }) => {
+      await expect(page.locator('header').locator('text=Agent Scrum')).toBeVisible();
     });
 
     test('shows connected users count', async ({ page }) => {
@@ -30,7 +26,7 @@ test.describe('Agent Scrum Platform', () => {
 
   test.describe('Board Tabs', () => {
     test('shows Agent Scrum title and Software Development tab', async ({ page }) => {
-      await expect(page.locator('text=Agent Scrum')).toBeVisible();
+      await expect(page.locator('text=Agent Scrum').first()).toBeVisible();
       await expect(page.getByRole('button', { name: 'Software Development' })).toBeVisible();
     });
 
@@ -84,7 +80,7 @@ test.describe('Agent Scrum Platform', () => {
 
     test('clicking a task card opens detail modal', async ({ page }) => {
       // Click the first task card
-      const firstCard = page.locator('.bg-gray-800.rounded-lg.p-3.cursor-pointer').first();
+      const firstCard = page.locator('.bg-gray-800.rounded-lg.p-3').first();
       await firstCard.click();
 
       // Modal should appear with Description header
@@ -94,7 +90,7 @@ test.describe('Agent Scrum Platform', () => {
 
     test('task detail modal shows subtask checkboxes', async ({ page }) => {
       // Click a task card that has subtask progress indicator (has subtasks)
-      const cardWithSubtasks = page.locator('.bg-gray-800.rounded-lg.p-3.cursor-pointer')
+      const cardWithSubtasks = page.locator('.bg-gray-800.rounded-lg.p-3')
         .filter({ has: page.locator('text=/\\d+\\/\\d+/') }).first();
       await cardWithSubtasks.click();
 
@@ -103,7 +99,7 @@ test.describe('Agent Scrum Platform', () => {
     });
 
     test('task detail modal can be closed', async ({ page }) => {
-      const firstCard = page.locator('.bg-gray-800.rounded-lg.p-3.cursor-pointer').first();
+      const firstCard = page.locator('.bg-gray-800.rounded-lg.p-3').first();
       await firstCard.click();
 
       await expect(page.locator('text=Description')).toBeVisible();
@@ -270,20 +266,20 @@ test.describe('Agent Scrum Platform', () => {
 
   test.describe('Epic Filter', () => {
     test('filtering by epic reduces visible tasks', async ({ page }) => {
-      const allTasksBefore = await page.locator('.bg-gray-800.rounded-lg.p-3.cursor-pointer').count();
+      const allTasksBefore = await page.locator('.bg-gray-800.rounded-lg.p-3').count();
 
       await page.locator('select').selectOption('Authentication');
 
-      const allTasksAfter = await page.locator('.bg-gray-800.rounded-lg.p-3.cursor-pointer').count();
+      const allTasksAfter = await page.locator('.bg-gray-800.rounded-lg.p-3').count();
       expect(allTasksAfter).toBeLessThan(allTasksBefore);
     });
 
     test('selecting All Epics shows all tasks again', async ({ page }) => {
       await page.locator('select').selectOption('Authentication');
-      const filteredCount = await page.locator('.bg-gray-800.rounded-lg.p-3.cursor-pointer').count();
+      const filteredCount = await page.locator('.bg-gray-800.rounded-lg.p-3').count();
 
       await page.locator('select').selectOption('All Epics');
-      const allCount = await page.locator('.bg-gray-800.rounded-lg.p-3.cursor-pointer').count();
+      const allCount = await page.locator('.bg-gray-800.rounded-lg.p-3').count();
 
       expect(allCount).toBeGreaterThan(filteredCount);
     });
