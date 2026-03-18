@@ -1,0 +1,66 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useBoardContext } from '@/context/BoardContext';
+import SubmitPRDModal from './SubmitPRDModal';
+import SettingsModal from './SettingsModal';
+
+export default function Header() {
+  const { connectedUsers, sessionId } = useBoardContext();
+  const [showPRDModal, setShowPRDModal] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+
+  return (
+    <>
+      <header className="h-12 bg-gray-900 border-b border-gray-700 flex items-center justify-between px-4">
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 relative">
+              <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" fill="#22c55e" />
+                <path d="M2 17l10 5 10-5" stroke="#22c55e" strokeWidth="2" fill="none" />
+                <path d="M2 12l10 5 10-5" stroke="#22c55e" strokeWidth="2" fill="none" />
+              </svg>
+            </div>
+            <span className="text-white font-bold text-sm tracking-wide">TENSOROPS</span>
+          </div>
+          <nav className="hidden md:flex items-center gap-5 text-gray-400 text-xs">
+            <a href="#" className="hover:text-white transition-colors">SERVICES</a>
+            <a href="#" className="hover:text-white transition-colors">CASE STUDIES</a>
+            <a href="#" className="hover:text-white transition-colors">CAREERS</a>
+            <a href="#" className="hover:text-white transition-colors">BLOG</a>
+          </nav>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <span className="text-gray-500 text-xs hidden sm:block">
+            {connectedUsers} other users connected
+          </span>
+          <button
+            onClick={() => setShowSettings(true)}
+            className="text-gray-400 hover:text-white transition-colors"
+            title="Settings"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </button>
+          <button
+            onClick={() => setShowPRDModal(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-1.5 rounded flex items-center gap-1.5 transition-colors"
+          >
+            <span className="text-lg leading-none">+</span> Submit PRD
+          </button>
+        </div>
+      </header>
+
+      <div className="h-6 bg-gray-900/80 border-b border-gray-800 flex items-center px-4">
+        <span className="text-cyan-400 text-[10px]">Your session: {sessionId}</span>
+      </div>
+
+      {showPRDModal && <SubmitPRDModal onClose={() => setShowPRDModal(false)} />}
+      {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
+    </>
+  );
+}
