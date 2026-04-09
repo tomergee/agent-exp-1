@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    id("com.android.application") version "8.2.2"
+    kotlin("android") version "1.9.22"
 }
 
 val gdxVersion: String by rootProject.extra
